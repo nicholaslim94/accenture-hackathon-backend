@@ -1,9 +1,6 @@
 package com.example.vaccinatetogether.serviceImpl;
 
 import java.util.Date;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
 
 import javax.security.auth.login.AccountException;
 
@@ -33,9 +30,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public String login(String username, String password) throws AccountException {
-		Account account = accountRepository
-				.findByUsername(username)
-				.orElseThrow(()-> new AccountException("Username not found"));
+		Account account = findByUsername(username);
 		if(!Account.getPasswordEncoder().matches(password, account.getPassword())) {
 			throw new AccountException("Invalid password");
 		}
@@ -73,7 +68,7 @@ public class AccountServiceImpl implements AccountService {
 	public Account findByUsername(String username) throws AccountException {
 		Account account = accountRepository
 		.findByUsername(username)
-		.orElseThrow(() -> new AccountException("Account id not found"));
+		.orElseThrow(() -> new AccountException("Username not found"));
 		return account;
 	}
 	

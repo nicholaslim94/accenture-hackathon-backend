@@ -26,7 +26,7 @@ import com.example.vaccinatetogether.security.JwtUtil;
 import com.example.vaccinatetogether.service.AccountService;
 import com.example.vaccinatetogether.service.RewardService;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 @RestController
 public class AccountController {
 	
