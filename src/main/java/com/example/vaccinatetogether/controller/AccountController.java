@@ -54,8 +54,8 @@ public class AccountController {
 	@GetMapping("/account/get/details")
 	public ResponseEntity<AccountDetailsDto> getAccountDetails(@RequestHeader("Authorization") String auth) throws AccountException {
 		String token = auth.substring(7);
-		String userId = jwtUtil.parseToken(token);
-		Account account = accountService.findByUsername(userId);
+		String username = jwtUtil.parseTokenUsername(token);
+		Account account = accountService.findByUsername(username);
 		return ResponseEntity.status(HttpStatus.OK).body(new AccountDetailsDto(account));
 	}
 	
