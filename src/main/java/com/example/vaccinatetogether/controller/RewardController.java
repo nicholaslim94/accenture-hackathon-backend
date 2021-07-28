@@ -3,6 +3,7 @@ package com.example.vaccinatetogether.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.vaccinatetogether.controller.dto.reward.AddModifyRewardDto;
 import com.example.vaccinatetogether.controller.dto.reward.RewardDto;
+import com.example.vaccinatetogether.controller.dto.reward.RewardObject;
 import com.example.vaccinatetogether.exception.OrganizationException;
 import com.example.vaccinatetogether.exception.RewardException;
 import com.example.vaccinatetogether.model.Organization;
@@ -34,17 +36,21 @@ public class RewardController {
 	private OrganizationService organizationService;
 	
 	@GetMapping("reward/get/{id}/{page}/{size}")
-	public ResponseEntity<List<RewardDto>> getReward(@PathVariable("id") String id, 
+	public ResponseEntity<RewardDto> getReward(@PathVariable("id") String id, 
 			@PathVariable("page") int page, @PathVariable("size") int size) {
-		List<Reward> rewards = rewardService.getReward(id, page, size);
-		return ResponseEntity.status(HttpStatus.OK).body(RewardDto.fromRewardModel(rewards));
+		Page<Reward> rewards = rewardService.getReward(id, page, size);
+		List<RewardObject> rewardObjects = RewardObject.fromRewardModel(rewards.toList());
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(new RewardDto(rewards.getTotalPages(), rewardObjects));
 	}
 	
 	@GetMapping("reward/get/{page}/{size}")
-	public ResponseEntity<List<RewardDto>> getRewards(@PathVariable("page") int page,
+	public ResponseEntity<RewardDto> getRewards(@PathVariable("page") int page,
 			@PathVariable("size") int size) {
-		List<Reward> rewards = rewardService.getRewards(page, size);
-		return ResponseEntity.status(HttpStatus.OK).body(RewardDto.fromRewardModel(rewards));
+		Page<Reward> rewards = rewardService.getRewards(page, size);
+		List<RewardObject> rewardObjects = RewardObject.fromRewardModel(rewards.toList());
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(new RewardDto(rewards.getTotalPages(), rewardObjects));
 	}
 	
 	@PostMapping("reward/add/{id}")

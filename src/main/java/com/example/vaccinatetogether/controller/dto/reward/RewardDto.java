@@ -1,64 +1,31 @@
 package com.example.vaccinatetogether.controller.dto.reward;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import com.example.vaccinatetogether.model.Reward;
-
 public class RewardDto {
-	private String id;
-	private String name;
-	private String description;
-	private Date created_dt;
+	private int totalPageNo;
+	private List<RewardObject> rewardObject;
 	
-	public RewardDto(String id, String name, String description, Date created_dt) {
+	public RewardDto(int totalPageNo, List<RewardObject> rewardObject) {
 		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.created_dt = created_dt;
+		this.totalPageNo = totalPageNo;
+		this.rewardObject = rewardObject;
 	}
-	
-	public static List<RewardDto> fromRewardModel(List<Reward> rewards) {
-		List<RewardDto> rewardDtos= new ArrayList<RewardDto>();
-		for(Reward reward : rewards) {
-			RewardDto rewardDto = new RewardDto(reward.getId().toString(),
-					reward.getName(), reward.getDescription(), reward.getCreated_dt());
-			rewardDtos.add(rewardDto);
-		}
-		return rewardDtos;
+	public int getTotalPageNo() {
+		return totalPageNo;
 	}
-
-	public String getId() {
-		return id;
+	public void setTotalPageNo(int totalPageNo) {
+		this.totalPageNo = totalPageNo;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public List<RewardObject> getRewardObject() {
+		return rewardObject;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Date getCreated_dt() {
-		return created_dt;
-	}
-	public void setCreated_dt(Date created_dt) {
-		this.created_dt = created_dt;
+	public void setRewardObject(List<RewardObject> rewardObject) {
+		this.rewardObject = rewardObject;
 	}
 	@Override
 	public String toString() {
-		return "GetRewardDto [id=" + id + ", name=" + name + ", description=" + description + ", created_dt="
-				+ created_dt + "]";
+		return "RewardDto [totalPageNo=" + totalPageNo + ", rewardObject=" + rewardObject + "]";
 	}
-
+	
 }

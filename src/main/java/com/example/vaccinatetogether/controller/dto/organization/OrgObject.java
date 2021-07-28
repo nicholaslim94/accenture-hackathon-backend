@@ -1,9 +1,11 @@
 package com.example.vaccinatetogether.controller.dto.organization;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.ArrayList;
+import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class GetOrgDto {
+import com.example.vaccinatetogether.model.Organization;
+
+public class OrgObject {
 	private String id;
 	private String name;
 	private String description;
@@ -11,7 +13,7 @@ public class GetOrgDto {
 	private String website;
 	private String no;
 	
-	public GetOrgDto(String id, String name, String description, String address, String website, String no) {
+	public OrgObject(String id, String name, String description, String address, String website, String no) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -19,6 +21,16 @@ public class GetOrgDto {
 		this.address = address;
 		this.website = website;
 		this.no = no;
+	}
+	public static List<OrgObject> fromOrgModel(List<Organization> organizations) {
+		List<OrgObject> orgObjects= new ArrayList<OrgObject>();
+		for(Organization org : organizations) {
+			OrgObject orgObject = new OrgObject(org.getId().toString(), 
+					org.getName(), org.getDescription(), org.getAddress(), 
+					org.getWebsite(), org.getNo());
+			orgObjects.add(orgObject);
+		}
+		return orgObjects;
 	}
 	public String getId() {
 		return id;

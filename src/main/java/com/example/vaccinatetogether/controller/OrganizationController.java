@@ -3,6 +3,7 @@ package com.example.vaccinatetogether.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.vaccinatetogether.controller.dto.organization.AddModifyOrgDto;
+import com.example.vaccinatetogether.controller.dto.organization.OrgDto;
+import com.example.vaccinatetogether.controller.dto.organization.OrgObject;
 import com.example.vaccinatetogether.exception.OrganizationException;
 import com.example.vaccinatetogether.model.Organization;
 import com.example.vaccinatetogether.service.OrganizationService;
@@ -27,16 +30,20 @@ public class OrganizationController {
 	private OrganizationService organizationService;
 	
 	@GetMapping("organization/get/{name}/{page}/{size}")
-	public ResponseEntity<List<Organization>> getOrg(@PathVariable("name") String name, 
+	public ResponseEntity<OrgDto> getOrg(@PathVariable("name") String name, 
 			@PathVariable("page") int page, @PathVariable("size") int size) {
-		List<Organization> org = organizationService.getOrg(name, page, size);
-		return ResponseEntity.status(HttpStatus.OK).body(org);
+		Page<Organization> orgs = organizationService.getOrg(name, page, size);
+		List<OrgObject> orgObjects = OrgObject.fromOrgModel(orgs.toList());
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(new OrgDto(orgs.getTotalPages(), orgObjects));
 	}
 	
 	@GetMapping("organization/get/{page}/{size}")
-	public ResponseEntity<?> getOrgs(@PathVariable("page") int page, @PathVariable("size") int size) {
-		List<Organization> org = organizationService.getOrgs(page, size);
-		return ResponseEntity.status(HttpStatus.OK).body(org);
+	public ResponseEntity<OrgDto> getOrgs(@PathVariable("page") int page, @PathVariable("size") int size) {
+		Page<Organization> orgs = organizationService.getOrgs(page, size);
+		List<OrgObject> orgObjects = OrgObject.fromOrgModel(orgs.toList());
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(new OrgDto(orgs.getTotalPages(), orgObjects));
 	}
 	
 	@PostMapping("organization/add")

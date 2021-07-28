@@ -1,6 +1,5 @@
 package com.example.vaccinatetogether.serviceImpl;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +21,17 @@ public class RewardServiceImpl implements RewardService {
 	private RewardRepository rewardRepository;
 	
 	@Override
-	public List<Reward> getRewards(int page, int size) {
+	public Page<Reward> getRewards(int page, int size) {
 		Pageable pagable = PageRequest.of(page, size);
 		Page<Reward> rewardPage = rewardRepository.findAll(pagable);
-		return rewardPage.toList();
+		return rewardPage;
 	}
 	
 	@Override
-	public List<Reward> getReward(String id, int page, int size) {
+	public Page<Reward> getReward(String id, int page, int size) {
 		Pageable pagable = PageRequest.of(page, size);
 		Page<Reward> rewardPage = rewardRepository.findAllByOrganizationId(id, pagable);
-		return rewardPage.toList();
+		return rewardPage;
 	}
 	
 	@Override

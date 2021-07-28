@@ -1,6 +1,5 @@
 package com.example.vaccinatetogether.serviceImpl;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +20,17 @@ public class OganizationServiceImpl implements OrganizationService {
 	private OrganizationRepository organizationRepository;
 	
 	@Override
-	public List<Organization> getOrgs(int page, int size) {
+	public Page<Organization> getOrgs(int page, int size) {
 		Pageable pagable = PageRequest.of(page, size);
 		Page<Organization> orgPage = organizationRepository.findAll(pagable);
-		return orgPage.toList();
+		return orgPage;
 	}
 	
 	@Override
-	public List<Organization> getOrg(String name, int page, int size) {
+	public Page<Organization> getOrg(String name, int page, int size) {
 		Pageable pagable = PageRequest.of(page, size);
 		Page<Organization> orgPage = organizationRepository.findAllByName(name, pagable);
-		return orgPage.toList();
+		return orgPage;
 	}
 	
 	@Override

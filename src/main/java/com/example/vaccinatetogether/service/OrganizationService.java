@@ -1,15 +1,15 @@
 package com.example.vaccinatetogether.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 import com.example.vaccinatetogether.exception.OrganizationException;
 import com.example.vaccinatetogether.model.Organization;
 
 public interface OrganizationService {
 	
-	List<Organization> getOrgs(int page, int size);
+	Page<Organization> getOrgs(int page, int size);
 	
-	List<Organization> getOrg(String name, int page, int size);
+	Page<Organization> getOrg(String name, int page, int size);
 	
 	void saveOrg(Organization org) throws OrganizationException;
 	
