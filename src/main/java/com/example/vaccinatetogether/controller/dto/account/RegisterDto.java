@@ -2,13 +2,20 @@ package com.example.vaccinatetogether.controller.dto.account;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import com.example.vaccinatetogether.model.Account;
 import com.example.vaccinatetogether.model.AccountDetails;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RegisterDto {
+	@NotNull
+	@NotBlank
 	private String username;
+	@NotNull
+	@NotBlank
 	private String password;
 	private String firstName;
 	private String lastName;

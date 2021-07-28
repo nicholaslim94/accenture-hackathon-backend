@@ -1,10 +1,17 @@
 package com.example.vaccinatetogether.controller.dto.account;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LoginDto {
+	@NotNull
+	@NotBlank
 	private String username;
+	@NotNull
+	@NotBlank
 	private String password;
 	public LoginDto(String username, String password) {
 		super();
