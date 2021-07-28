@@ -1,6 +1,8 @@
 package com.example.vaccinatetogether.serviceImpl;
 
+import java.util.Date;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.security.auth.login.AccountException;
@@ -10,7 +12,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.vaccinatetogether.model.Account;
 import com.example.vaccinatetogether.model.AccountDetails;
+import com.example.vaccinatetogether.model.AccountReward;
+import com.example.vaccinatetogether.model.Reward;
 import com.example.vaccinatetogether.repository.AccountRepository;
+import com.example.vaccinatetogether.repository.AccountRewardRepository;
 import com.example.vaccinatetogether.security.JwtUtil;
 import com.example.vaccinatetogether.service.AccountService;
 
@@ -19,6 +24,9 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	private AccountRepository accountRepository;
+	
+	@Autowired
+	private AccountRewardRepository accountRewardRepository;
 	
 	@Autowired
 	private JwtUtil jwtUtil;
@@ -67,5 +75,15 @@ public class AccountServiceImpl implements AccountService {
 		.findByUsername(username)
 		.orElseThrow(() -> new AccountException("Account id not found"));
 		return account;
+	}
+	
+	@Override
+	public void addRewardToAccount(String username, Reward reward) throws AccountException {
+		Account account = findByUsername(username);
+		AccountReward accountReward = new AccountReward(null, new Date(), account, reward);
+		AccountReward accountRewardSaved =  accountRewardRepository.save(accountReward);
+		if(accountRewardSaved == null) {
+			throw new AccountException("Failed to save registered account: " + account.getUsername());
+		}
 	}
 }

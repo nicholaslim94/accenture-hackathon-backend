@@ -16,5 +16,7 @@ public interface RewardService {
 	void modifyReward(String id, Reward reward) throws RewardException;
 	
 	void removeReward(String id) throws RewardException, IllegalArgumentException;
+
+	Reward findById(String id) throws RewardException;
 	
 }

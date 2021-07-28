@@ -30,6 +30,9 @@ public class AccountReward {
 	@JoinColumn(name="reward_id", nullable=true)
 	@JsonBackReference
 	private Reward reward;
+	
+	public AccountReward() {}
+	
 	public AccountReward(UUID id , Date consumed_dt , Account account, Reward reward) {
 		super();
 		this.id = id;

@@ -59,10 +59,16 @@ public class RewardServiceImpl implements RewardService {
 	
 	@Override
 	public void removeReward(String id) throws RewardException, IllegalArgumentException {
-		Reward rewardDelete =  rewardRepository
+		Reward rewardDelete = findById(id);
+		rewardRepository.delete(rewardDelete);
+	}
+	
+	@Override
+	public Reward findById(String id) throws RewardException {
+		Reward reward =  rewardRepository
 				.findById(UUID.fromString(id))
 				.orElseThrow(() -> new RewardException("Reward not found"));
-		rewardRepository.delete(rewardDelete);
+		return reward;
 	}
 
 }

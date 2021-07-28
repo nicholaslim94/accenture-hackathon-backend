@@ -1,5 +1,6 @@
 package com.example.vaccinatetogether.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -17,4 +18,6 @@ public interface RewardRepository extends PagingAndSortingRepository<Reward, UUI
 	
 	@EntityGraph(value = "Reward.organization", type = EntityGraphType.FETCH)
 	Page<Reward> findAllByOrganizationId(String id, Pageable pageable);
+	
+	Optional<Reward> findById(UUID id);
 }

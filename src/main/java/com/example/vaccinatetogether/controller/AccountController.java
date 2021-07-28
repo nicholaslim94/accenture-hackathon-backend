@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -18,16 +19,22 @@ import com.example.vaccinatetogether.controller.dto.account.JwtDto;
 import com.example.vaccinatetogether.controller.dto.account.LoginDto;
 import com.example.vaccinatetogether.controller.dto.account.RegisterDto;
 import com.example.vaccinatetogether.controller.dto.account.UpdateAccountDetailsdto;
+import com.example.vaccinatetogether.exception.RewardException;
 import com.example.vaccinatetogether.model.Account;
+import com.example.vaccinatetogether.model.Reward;
 import com.example.vaccinatetogether.security.JwtUtil;
 import com.example.vaccinatetogether.service.AccountService;
+import com.example.vaccinatetogether.service.RewardService;
 
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class AccountController {
 	
 	@Autowired
 	private AccountService accountService;
+	
+	@Autowired
+	private RewardService rewardService;
 	
 	@Autowired
 	private JwtUtil jwtUtil;
@@ -58,6 +65,16 @@ public class AccountController {
 		String token = auth.substring(7);
 		String username = jwtUtil.parseTokenUsername(token);
 		accountService.modifyAccountDetails(username, updateAccountDetailsdto.toAccountDetailsModel());
+		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
+	
+	@PostMapping("/account/add/rewards/{id}")
+	public ResponseEntity<?> addRewardsToAccount(@RequestHeader("Authorization") String auth,
+			@PathVariable("id") String id ) throws RewardException, AccountException {
+		String token = auth.substring(7);
+		String username = jwtUtil.parseTokenUsername(token);
+		Reward reward = rewardService.findById(id);
+		accountService.addRewardToAccount(username, reward);
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 
