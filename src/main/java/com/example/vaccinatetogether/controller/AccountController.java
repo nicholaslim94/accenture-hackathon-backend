@@ -1,5 +1,7 @@
 package com.example.vaccinatetogether.controller;
 
+import java.util.Set;
+
 import javax.security.auth.login.AccountException;
 import javax.validation.Valid;
 
@@ -21,6 +23,7 @@ import com.example.vaccinatetogether.controller.dto.account.RegisterDto;
 import com.example.vaccinatetogether.controller.dto.account.UpdateAccountDetailsdto;
 import com.example.vaccinatetogether.exception.RewardException;
 import com.example.vaccinatetogether.model.Account;
+import com.example.vaccinatetogether.model.AccountReward;
 import com.example.vaccinatetogether.model.Reward;
 import com.example.vaccinatetogether.security.JwtUtil;
 import com.example.vaccinatetogether.service.AccountService;
@@ -66,6 +69,14 @@ public class AccountController {
 		String username = jwtUtil.parseTokenUsername(token);
 		accountService.modifyAccountDetails(username, updateAccountDetailsdto.toAccountDetailsModel());
 		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
+	
+	@GetMapping("/account/get/rewards")
+	public ResponseEntity<Set<AccountReward>> getAccountRewards(@RequestHeader("Authorization") String auth) throws AccountException {
+		String token = auth.substring(7);
+		String username = jwtUtil.parseTokenUsername(token);
+		Set<AccountReward> accountRewards = accountService.getAccountRewards(username);
+		return ResponseEntity.status(HttpStatus.OK).body(accountRewards);
 	}
 	
 	@PostMapping("/account/add/rewards/{id}")

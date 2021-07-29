@@ -1,6 +1,7 @@
 package com.example.vaccinatetogether.serviceImpl;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.security.auth.login.AccountException;
 
@@ -43,6 +44,12 @@ public class AccountServiceImpl implements AccountService {
 		if(savedAccount == null) {
 			throw new AccountException("Failed to save registered account: " + account.getUsername());
 		}
+	}
+	
+	@Override
+	public Set<AccountReward> getAccountRewards(String usernmae) throws AccountException {
+		Account account = findByUsername(usernmae);
+		return account.getAccountRewards();
 	}
 	
 	@Override
