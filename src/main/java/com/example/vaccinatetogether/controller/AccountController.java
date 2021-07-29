@@ -1,5 +1,6 @@
 package com.example.vaccinatetogether.controller;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.security.auth.login.AccountException;
@@ -71,12 +72,13 @@ public class AccountController {
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 	
+	// TODO implementation can be improved
 	@GetMapping("/account/get/rewards")
-	public ResponseEntity<Set<AccountReward>> getAccountRewards(@RequestHeader("Authorization") String auth) throws AccountException {
+	public ResponseEntity<List<Reward>> getAccountRewards(@RequestHeader("Authorization") String auth) throws AccountException {
 		String token = auth.substring(7);
 		String username = jwtUtil.parseTokenUsername(token);
-		Set<AccountReward> accountRewards = accountService.getAccountRewards(username);
-		return ResponseEntity.status(HttpStatus.OK).body(accountRewards);
+		List<Reward> rewards = accountService.getAccountRewards(username);
+		return ResponseEntity.status(HttpStatus.OK).body(rewards);
 	}
 	
 	@PostMapping("/account/add/rewards/{id}")

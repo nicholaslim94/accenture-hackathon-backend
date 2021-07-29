@@ -1,5 +1,6 @@
 package com.example.vaccinatetogether.service;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.security.auth.login.AccountException;
@@ -21,6 +22,6 @@ public interface AccountService {
 
 	void addRewardToAccount(String username, Reward reward) throws AccountException;
 
-	Set<AccountReward> getAccountRewards(String usernmae) throws AccountException;
+	List<Reward> getAccountRewards(String usernmae) throws AccountException;
 
 }

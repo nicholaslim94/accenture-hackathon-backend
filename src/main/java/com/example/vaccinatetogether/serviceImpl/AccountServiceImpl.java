@@ -1,6 +1,8 @@
 package com.example.vaccinatetogether.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.security.auth.login.AccountException;
@@ -47,9 +49,14 @@ public class AccountServiceImpl implements AccountService {
 	}
 	
 	@Override
-	public Set<AccountReward> getAccountRewards(String usernmae) throws AccountException {
+	public List<Reward> getAccountRewards(String usernmae) throws AccountException {
 		Account account = findByUsername(usernmae);
-		return account.getAccountRewards();
+		Set<AccountReward> accountRewards = account.getAccountRewards();
+		List<Reward> rewards = new ArrayList<>();
+		for(AccountReward accountReward: accountRewards) {
+			rewards.add(accountReward.getReward());
+		}
+		return rewards;
 	}
 	
 	@Override
