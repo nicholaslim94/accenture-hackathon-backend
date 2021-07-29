@@ -30,7 +30,7 @@ public class RewardServiceImpl implements RewardService {
 	@Override
 	public Page<Reward> getReward(String id, int page, int size) {
 		Pageable pagable = PageRequest.of(page, size);
-		Page<Reward> rewardPage = rewardRepository.findAllByOrganizationId(id, pagable);
+		Page<Reward> rewardPage = rewardRepository.findAllByOrganizationId(UUID.fromString(id), pagable);
 		return rewardPage;
 	}
 	

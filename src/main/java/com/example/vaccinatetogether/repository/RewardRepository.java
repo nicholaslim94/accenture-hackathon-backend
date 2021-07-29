@@ -16,8 +16,8 @@ import com.example.vaccinatetogether.model.Reward;
 public interface RewardRepository extends PagingAndSortingRepository<Reward, UUID> {
 	Page<Reward> findAll(Pageable pageable);
 	
-	@EntityGraph(value = "Reward.organization", type = EntityGraphType.FETCH)
-	Page<Reward> findAllByOrganizationId(String id, Pageable pageable);
+	@EntityGraph(value = "Reward.organization", type = EntityGraphType.FETCH, attributePaths = "id")
+	Page<Reward> findAllByOrganizationId(UUID id, Pageable pageable);
 	
 	Optional<Reward> findById(UUID id);
 }
